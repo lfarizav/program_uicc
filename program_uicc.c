@@ -30,6 +30,7 @@ struct uicc_vals {
   string acc="";
   string key="";
   string spn="open cells";
+  string rusimv="";
   int mncLen=2;
   bool authenticate=false;
 };
@@ -55,6 +56,9 @@ bool readUSIMvalues(char *port) {
   vector<string> res;
   USIM USIMcard;
   string ATR;
+  //printf("USIM card open is %s\n",USIMcard.open(port));
+  printf("port is %s\n",port);
+  //dump_hex("ATR", USIMcard.open(port));
   Assert((ATR=USIMcard.open(port))!="", "Failed to open %s", port);
   //dump_hex("ATR", ATR);
   res=USIMcard.readFile("ICCID");
@@ -417,6 +421,7 @@ int main(int argc, char **argv) {
     {"xx",    required_argument, 0, 9},
     {"authenticate",  no_argument, 0, 10},
     {"spn", required_argument, 0, 11},
+    {"rusimv", required_argument, 0, 12},
     {0,       0,                 0, 0}
   };
   static map<string,string> help_text= {
@@ -431,6 +436,7 @@ int main(int argc, char **argv) {
     {"MNCsize","Mobile network code size in digits (default to 2)"},
     {"xx",    "OP  field: OPerator code: must be also set in HSS (exclusive with OPc)"},
     {"spn",   "service provider name: the name that the UE will show as 'network'"},
+    {"rusimv",  "Read USIM values: 1 -> yes, 0 -> no"},
     {"authenticate",  "Test the milenage authentication and discover the current sequence number"},
   };
   int c;
@@ -494,13 +500,21 @@ int main(int argc, char **argv) {
       case 11:
         new_vals.spn=optarg;
         break;
+      case 12:
+        new_vals.rusimv=optarg;
+        break;
 
       default:
         printf("unrecognized option: %d \n", c);
         correctOpt=false;
     };
   }
-
+  if (new_vals.rusimv=="1")
+  {
+      printf ("Read values in UICC\n");
+      readUSIMvalues(portName);
+  }
+	
   if (optind < argc ||  correctOpt==false) {
     printf("non-option ARGV-elements: ");
 
