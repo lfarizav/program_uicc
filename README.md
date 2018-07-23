@@ -16,3 +16,8 @@ This is the modified Software to read/write USIM from http://open-cells.com/d513
 12.  --spn        service provider name: the name that the UE will show as 'network'
 13.  --rusimv     Read USIM values: 1 -> yes, 0 -> no
 
+# Building:
+1. Modify program_uicc.c file
+2. make
+# Use:
+sudo ./program_uicc --adm 12345678 --opc e734f8734007d6c5ce7a0508809e7e9c --key 8baf473f2f8fd09487cccbd7097c6862 --spn openairinterface --authenticate
