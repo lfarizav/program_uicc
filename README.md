@@ -1,5 +1,5 @@
 # program_uicc
-Software to read/write USIM
+This is the modified Software to read/write USIM from http://open-cells.com/d5138782a8739209ec5760865b1e53b0/uicc-v1.3.tgz.  This software was createt by Laurent Thomas at the Open-Cells project company.
 
 # Possible options are:
 1.  --port       Linux port to access the card reader (/dev/ttyUSB0)
